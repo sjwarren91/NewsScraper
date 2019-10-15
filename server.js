@@ -23,7 +23,7 @@ app.set("view engine", "handlebars");
 // Import routes and give the server access to them.
 
 require("./routes/apiRoutes")(app);
-// require("./routes/htmlRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 // Connect to MongoDB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/NewsScraper";

@@ -41,7 +41,16 @@ module.exports = function(app) {
               console.log(err);
             });
 
+          res.send("Scrape Complete");
         });
       });
   });
+
+  app.get("/articles", function(req, res) {
+      db.Article.find({}).then(function(article) {
+          res.json(article)
+      }).catch(function(err) {
+          res.json(err);
+      })
+  })
 };
