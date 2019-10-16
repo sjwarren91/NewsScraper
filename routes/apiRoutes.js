@@ -65,4 +65,22 @@ module.exports = function(app) {
         res.json(err);
       });
   });
+
+  app.get("/articles/:id", (req, res) => {
+    db.Article.findOne({_id: req.params.id}).populate("comment").then(data => {
+      res.json(data); // render here instead
+    }).catch(err => {
+      res.json(err);
+    })
+  });
+
+  app.post("/articles/:id", (req, res) => {
+    db.Comment.create(req.body).then(comment => {
+      return db.Article.findOneAndUpdate({_id: req.params.id}, {note: comment._id}, {new: true})
+    }).then(article => {
+      res.json(article); // can probably render here to update automatically
+    }).catch(err => {
+      res.json(err);
+    })
+  })
 };

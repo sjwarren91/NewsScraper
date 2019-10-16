@@ -2,6 +2,15 @@
 <div class="article">
     <a class="article-title" href="{{link}}">{{title}}</a>
     <div class="article-body">{{body}}</div>
-    <button class="article-button" data-id="{{_id}}">Comments</button>
+    <div class="button-box">
+        <div class="button-container">
+        <span>
+            <img src="/images/message-square.svg">
+        </span>
+        <button class="article-button" data-id="{{_id}}">Comments</button>
+        </div>
+    </div>
 </div>
 {{/each}}
+
+<script type="text/javascript" src="/js/modal.js"></script>

@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 header {
@@ -35,7 +36,7 @@ header {
 }
 
 .article-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
     height: 80px;
@@ -49,6 +50,7 @@ header {
     padding: 15px 10px 15px 10px;
     height: 150px;
     text-align: justify;
+    font-size: 12px;
 }
 
 .container {
@@ -59,6 +61,86 @@ header {
 }
 
 .article-button {
-    width: 100px;
-    margin: 10px;
+    line-height: 2em;
+    background: inherit;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 200;
+    font-size: 12px;
+    color: #606770;
+    outline: none;
 }
+
+.button-box {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-top: 1px solid #E9EBEE;
+    width: 200px;
+    border-radius: 2px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 125px;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.button-container:hover, 
+.article-button:hover  {
+    background: #F2F2F2;
+    cursor: pointer;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    position: relative;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  input[type=text] {
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    outline: none;
+  }
