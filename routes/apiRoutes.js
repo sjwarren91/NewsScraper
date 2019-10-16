@@ -30,27 +30,39 @@ module.exports = function(app) {
             result.body = $(this)
               .children("p:nth-last-child(2)")
               .text();
-            // console.log(result);
           }
 
-          db.Article.create(result)
-            .then(function(article) {
-              console.log(article);
+          db.Article.findOne({ title: result.title })
+            .then(data => {
+              if (data) {
+                db.Article.create(result)
+                  .then(function(article) {
+                    // console.log(article);
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+              }
             })
-            .catch(function(err) {
-              console.log(err);
+            .catch(err => {
+              console.error(err);
             });
-
-          res.send("Scrape Complete");
         });
+        res.status(200);
+        res.end();
+      })
+      .catch(err => {
+        console.log(err);
       });
   });
 
   app.get("/articles", function(req, res) {
-      db.Article.find({}).then(function(article) {
-          res.json(article)
-      }).catch(function(err) {
-          res.json(err);
+    db.Article.find({})
+      .then(function(article) {
+        res.render("articles", { articles: article, layout: false });
       })
-  })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
 };

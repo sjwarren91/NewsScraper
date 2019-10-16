@@ -25,23 +25,40 @@ header {
 
 .article {
     display: flex;
+    align-items: center;
     flex-direction: column;
     width: 250px;
-    border: 1px solid #d56637;
+    border: 2px solid #d56637;
     border-radius: 4px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin: 15px;
 }
 
 .article-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
+    height: 80px;
     padding: 15px 10px 15px 10px;
     background-color: #d56637;
     color: #fff;
+    /* text-decoration: none; */
 }
 
 .article-body {
     padding: 15px 10px 15px 10px;
+    height: 150px;
     text-align: justify;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90vw;
+    justify-content: center;
+}
+
+.article-button {
+    width: 100px;
+    margin: 10px;
 }
