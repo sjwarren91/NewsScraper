@@ -8,7 +8,8 @@ module.exports = function(app) {
       .get("https://www.abc.net.au/news/justin/?page=1")
       .then(function(response) {
         var $ = cheerio.load(response.data);
-
+        // array of data => map =>
+        var data = [];
         $(".article-index li").each(function(i, element) {
           var result = {};
           if (
@@ -31,26 +32,28 @@ module.exports = function(app) {
               .children("p:nth-last-child(2)")
               .text();
           }
+          data.push(result);
           console.log(result);
-
-          db.Article.findOne({ title: result.title })
-            .then(data => {
-              if (!data) {
-                db.Article.create(result)
-                  .then(function(article) {
-                    console.log(article);
-                  })
-                  .catch(function(err) {
-                    console.log(err);
-                  });
-              }
-            })
-            .catch(err => {
-              console.error(err);
-            });
         });
-        res.status(200);
-        res.end();
+
+        Promise.all(
+          data.map(element =>
+            db.Article.findOne({ title: element.title })
+              .then(data => {
+                if (!data) {
+                  return db.Article.create(element)
+                }
+              }).then(function(article) {
+                console.log(article);
+              })
+              .catch(function(err) {
+                console.log(err);
+              })
+          )
+        ).then(() => {
+          res.status(200);
+          res.end();
+        });
       })
       .catch(err => {
         console.log(err);
@@ -60,7 +63,7 @@ module.exports = function(app) {
   app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(article) {
-        console.log(article)
+        console.log(article);
         res.render("articles", { articles: article, layout: false });
       })
       .catch(function(err) {
@@ -69,20 +72,30 @@ module.exports = function(app) {
   });
 
   app.get("/articles/:id", (req, res) => {
-    db.Article.findOne({_id: req.params.id}).populate("comment").then(data => {
-      res.json(data); // render here instead
-    }).catch(err => {
-      res.json(err);
-    })
+    db.Article.findOne({ _id: req.params.id })
+      .populate("comment")
+      .then(data => {
+        res.json(data); // render here instead
+      })
+      .catch(err => {
+        res.json(err);
+      });
   });
 
   app.post("/articles/:id", (req, res) => {
-    db.Comment.create(req.body).then(comment => { 
-      return db.Article.updateOne({_id: req.params.id}, {$push: {comment: comment._id}}, {new: true})
-    }).then(article => {
-      res.json(article); // can probably render here to update automatically
-    }).catch(err => {
-      res.json(err);
-    })
-  })
+    db.Comment.create(req.body)
+      .then(comment => {
+        return db.Article.updateOne(
+          { _id: req.params.id },
+          { $push: { comment: comment._id } },
+          { new: true }
+        );
+      })
+      .then(article => {
+        res.json(article); // can probably render here to update automatically
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  });
 };
