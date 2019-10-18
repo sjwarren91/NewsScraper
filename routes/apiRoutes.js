@@ -31,13 +31,14 @@ module.exports = function(app) {
               .children("p:nth-last-child(2)")
               .text();
           }
+          console.log(result);
 
           db.Article.findOne({ title: result.title })
             .then(data => {
-              if (data) {
+              if (!data) {
                 db.Article.create(result)
                   .then(function(article) {
-                    // console.log(article);
+                    console.log(article);
                   })
                   .catch(function(err) {
                     console.log(err);
@@ -59,6 +60,7 @@ module.exports = function(app) {
   app.get("/articles", function(req, res) {
     db.Article.find({})
       .then(function(article) {
+        console.log(article)
         res.render("articles", { articles: article, layout: false });
       })
       .catch(function(err) {
@@ -75,8 +77,8 @@ module.exports = function(app) {
   });
 
   app.post("/articles/:id", (req, res) => {
-    db.Comment.create(req.body).then(comment => {
-      return db.Article.findOneAndUpdate({_id: req.params.id}, {note: comment._id}, {new: true})
+    db.Comment.create(req.body).then(comment => { 
+      return db.Article.updateOne({_id: req.params.id}, {$push: {comment: comment._id}}, {new: true})
     }).then(article => {
       res.json(article); // can probably render here to update automatically
     }).catch(err => {
