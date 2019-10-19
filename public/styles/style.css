@@ -183,3 +183,18 @@ header {
     display: flex;
     flex-direction: column;
   } 
+
+  .comment {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+  .feather-x-circle {
+      stroke: red;
+  }
+
+  .feather-x-circle:hover {
+      stroke-width: 2;
+      cursor: pointer;
+  }
