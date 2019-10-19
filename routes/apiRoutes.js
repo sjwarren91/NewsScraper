@@ -101,8 +101,6 @@ module.exports = function(app) {
   });
 
   app.get("/comment/:id", (req, res) => {
-    console.log(req.params.id);
-    console.log(mongoose.Types.ObjectId(req.params.id))
     db.Comment.deleteOne({_id : mongoose.Types.ObjectId(req.params.id)}).then(data => {
       res.json(data);
     }).catch(err => {
