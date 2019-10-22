@@ -7,3 +7,4 @@ An application that scrapes news articles from ABC news and presents them to the
 * Node.js
 * JavaScript, HTML5, CSS3
 * Axios
+* Cheerio
